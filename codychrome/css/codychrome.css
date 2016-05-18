@@ -1,0 +1,99 @@
+/* bootstrap overrides for Chrome extension */
+body, section {
+  width: 400px;
+  height: 600px;
+  overflow-x: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar {
+  margin-bottom: 0;
+}
+
+.navbar .container-fluid>.navbar-header {
+  float: left;
+  margin-right: 10px;
+}
+
+.navbar .navbar-nav {
+  float: left;
+  margin: 5px;
+}
+
+.nav>li {
+  float: left;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); }
+::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb:window-inactive  { background: #007299; }
+
+/* custom styles */
+.header {
+    text-align: center;
+}
+
+.alert {
+  text-align: center;
+  height: 30px;
+  padding: 5px 0;
+}
+
+.comment {
+  width: 300px;
+  margin-bottom: 20px;
+}
+
+textarea.spaced {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.github-form {
+    margin-top: 10px;
+}
+
+.center-content {
+  text-align: center;
+}
+
+.parse-alert {
+  margin-top: 40px;
+}
+
+/* custom button styles */
+.btn {
+    padding: 14px 24px;
+    border: 0 none;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+ 
+.btn:focus, .btn:active:focus, .btn.active:focus {
+    outline: 0 none;
+}
+
+.btn-primary {
+  background: #0099cc;
+  color: #ffffff;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+    background: #33a6cc;
+}
+ 
+.btn-primary:active, .btn-primary.active {
+    background: #007299;
+    box-shadow: none;
+}
+
+.btn.sharp {
+  border-radius: 0;
+}
+
+.btn.spaced {
+  margin-bottom: 20px;
+  width: 100%;
+}

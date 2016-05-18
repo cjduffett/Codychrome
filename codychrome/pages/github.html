@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="Google Chrome extension to integrate Cody Coursework with GitHub">
+    <meta name="author" content="Carlton Duffett">
+    
+    <title>Codychrome</title>
+    
+    <!-- CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/codychrome.css" rel="stylesheet">
+    
+    <!-- Fonts -->
+    <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    
+    <!-- Bootstrap -->
+    <script src="/js/jquery-2.2.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    
+    <!-- GitHub -->
+    <script src="/js/GitHub.bundle.min.js"></script>
+    
+    <!-- Angular Core -->
+    <script src="/js/angular.min.js"></script>
+    <script src="/js/angular/app.js"></script>
+    
+    <!-- Angular Services -->
+    <script src="/js/angular/alerts/alerts.service.js"></script>
+    <script src="/js/angular/problem/problem.service.js"></script>
+    <script src="/js/angular/github/github.service.js"></script>
+    
+    <!-- Angular Controllers -->
+    <script src="/js/angular/alerts/alerts.controller.js"></script>
+    <script src="/js/angular/problem/problem.controller.js"></script>
+    <script src="/js/angular/github/github.controller.js"></script>
+  </head>
+  
+  <body ng-app="app">
+    
+    <!-- Page Header -->
+    <div class="header">
+        <img src="/img/header.png">
+    </div>
+    
+    <div class="content">
+      
+      <!-- Navbar -->
+      <div class="navbar navbar-default">
+        <div class="container-fluid">
+          <div style="display: inline-block;">
+            <ul class="nav navbar-nav">
+              <li><a href="/pages/problem.html"><i class="fa fa-2x fa-code"></i></a></li>
+              <li class="active"><a href="/pages/github.html"><i class="fa fa-2x fa-github"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Alert Messages -->
+      <div ng-controller="AlertsController as ctrl">
+        <div class="row">
+          <div class="alert" ng-class="[ctrl.alert.class]">
+            <p><strong>{{ctrl.alert.message}}</strong></p>
+          </div>
+        </div>
+      </div>
+      
+      <div ng-controller="GithubController as ctrl">
+      
+        <!-- GitHub Credentials -->
+        <div class="row github-form">
+          <div class="col-xs-10 col-xs-offset-1">
+            <form role="form" novalidate ng-submit="ctrl.saveCredentials()">
+              <div class="form-group">
+                <label for="repo">GitHub Repository:</label>
+                <input id="repo" type="text" name="repo" class="form-control" ng-model="ctrl.repo.path" ng-required="true" placeholder="Enter the URL to your GitHub repository">
+              </div>
+              <div class="form-group">
+                <label for="username">GitHub Username:</label>
+                <input id="username" type="text" name="username" class="form-control" ng-model="ctrl.repo.user.username" ng-required="true">
+              </div>
+              <div class="form-group">
+                <label for="password">GitHub Password:</label>
+                <input id="password" type="password" name="password" class="form-control" ng-model="ctrl.repo.user.password" ng-required="true">
+              </div>
+              <div class="center-content">
+                <input type="submit" class="btn btn-primary sharp spaced" name="save" value="Save">
+              </div>
+            </form>
+
+          </div>
+        </div>
+       </div> 
+    </div>
+  </body>
+</html>
+

@@ -75,11 +75,11 @@
       
       // run jQuery and parser against the Cody Coursework page
       chrome.tabs.executeScript(tab.id, {
-        file: '/js/jquery-2.2.3.min.js'
+        file: '/js/lib/jquery-2.2.3.min.js'
       });
       
       chrome.tabs.executeScript(tab.id, {
-        file: '/js/parse.js'
+        file: '/js/scripts/parse.js'
       });
     }
     

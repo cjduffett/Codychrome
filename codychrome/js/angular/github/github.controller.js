@@ -38,7 +38,7 @@
      * Loads the user's GitHub credentials from local storage
      */
     
-    function loadCredentials {
+    function loadCredentials() {
       
     }
     
@@ -46,7 +46,7 @@
      * Saves or updates the user's GitHub credentials to local storage
      */
     
-    function saveCredentials {
+    function saveCredentials() {
     
     } 
   }

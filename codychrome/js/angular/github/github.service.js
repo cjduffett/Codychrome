@@ -108,9 +108,21 @@
             });
           }
           else {
-            resolve({
-              token: getAccessToken(code)
-            });
+            getAccessToken(code, state)
+            .then(successCallback)
+            .catch(errorCallback);
+            
+            function successCallback(token) {
+              resolve({
+                token: token
+              });
+            }
+            
+            function errorCallback(response) {
+              reject({
+                error: 'Failed to obtain access token.'
+              });
+            }
           }
         }
       });
@@ -143,9 +155,7 @@
       
       function successCallback(response) {
         
-        // parse the access token from the response
-        var token = response.data.access_token;
-        return token;
+        return response.data.access_token;
       }
       
       function errorCallback(response) {

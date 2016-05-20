@@ -12,6 +12,7 @@
         
       /* shared modules */
       'alerts',
-      'problem'
+      'problem',
+      'github'
     ]);
 })();

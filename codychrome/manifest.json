@@ -30,6 +30,7 @@
     "declarativeContent",
     "activeTab",
     "storage",
+    "identity",
     "http://*.github.com/",
     "https://*.github.com/"
   ]

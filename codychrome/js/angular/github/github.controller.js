@@ -19,36 +19,41 @@
     var vm = this;
     vm.repo = githubService.repo;
     vm.user = githubService.user;
+    vm.token = 'No token available';
     
     /* methods */
-    vm.saveCredentials = saveCredentials;
-    
-    init();
+    vm.launchOAuth = launchOAuth;
     
     /////////////////////
     
-    /*
-     * Controller initialization
-     */
-    function init() {
-      loadCredentials();
-    }
     
+  
     /*
-     * Loads the user's GitHub credentials from local storage
+     * Initiates Github OAuth
      */
-    
-    function loadCredentials() {
+    function launchOAuth() {
       
+      alerts.warning('Launched oAuth...');
+      githubService.authenticate()
+        .then(successCallback)
+        .catch(errorCallback);
+      
+      function successCallback(response) {
+        if (response.token) {
+          vm.token = response.token;
+          alerts.success('Authenticated with GitHub!');
+        }
+        else {
+          vm.token = 'No token available';
+          alerts.error('Authentication failed!');
+        }
+      }
+      
+      function errorCallback(response) {
+        console.log(response);
+        alerts.error(response.error);
+      }
     }
-    
-    /*
-     * Saves or updates the user's GitHub credentials to local storage
-     */
-    
-    function saveCredentials() {
-    
-    } 
   }
   
 })();

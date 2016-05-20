@@ -65,7 +65,15 @@
       
       <div ng-controller="GithubController as ctrl">
       
-        <!-- GitHub Credentials -->
+        <div class="row">
+          <div class="col-xs-10 col-xs-offset-1">
+            <button class="btn btn-primary sharp spaced" ng-click="ctrl.launchOAuth()">Authorize Github</button>
+            
+            <p>{{ctrl.code}}</p>
+          </div>
+        </div>
+        
+        <!-- GitHub Credentials
         <div class="row github-form">
           <div class="col-xs-10 col-xs-offset-1">
             <form role="form" novalidate ng-submit="ctrl.saveCredentials()">

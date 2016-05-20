@@ -39,19 +39,24 @@
         .catch(errorCallback);
       
       function successCallback(response) {
-        if (response.token) {
-          vm.token = response.token;
-          alerts.success('Authenticated with GitHub!');
-        }
-        else {
-          vm.token = 'No token available';
-          alerts.error('Authentication failed!');
-        }
+        
+        $scope.$apply(function() {
+          if (response.token) {
+            vm.token = response.token;
+            alerts.success('Authenticated with GitHub!');
+          }
+          else {
+            vm.token = 'No token available';
+            alerts.error('Authentication failed!');
+          }
+        });
       }
       
       function errorCallback(response) {
-        console.log(response);
-        alerts.error(response.error);
+        
+        $scope.$apply(function() {
+          alerts.error(response.error);
+        });
       }
     }
   }

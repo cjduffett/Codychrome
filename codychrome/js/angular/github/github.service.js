@@ -17,26 +17,12 @@
   
   function githubService($http) {
     
-    /*
-     * GitHub Client Configuration
-     * Note: Since Chrome Extensions are strictly client-side, there is no secure way
-     * to keep the secret key secret.
-     */
-    var githubClient = {
-      id:                 '1f2110af226993c5f6ad',
-      secret:             '',
-      scope:              'repo',  // gives client read/write access to user's repositories
-      authRedirectPath:   'pages/github.html',
-      authURL:            'https://github.com/login/oauth/authorize',
-      tokenURL:           'https://github.com/login/oauth/access_token'
-    };
-    
     var service = {
       
       /* methods */
       authenticate: authenticate
     }
-    
+
     return service;
     ///////////////////////////
     
@@ -67,7 +53,7 @@
      * Generates redirect URL from initial GitHub OAuth request
      */
     function getRedirectURL() {
-      return chrome.identity.getRedirectURL() + githubClient.authRedirectPath;
+      return chrome.identity.getRedirectURL() + CONFIG.GITHUB_CLIENT.AUTH_REDIRECT_PATH;
     }
         
     /*
@@ -79,9 +65,9 @@
       // used to prevent CSRF in OAuth request
       var state = getState();
       
-      var url = githubClient.authURL + '?' +
-          'client_id=' + githubClient.id +
-          '&scope=' + githubClient.scope +
+      var url = CONFIG.GITHUB_CLIENT.AUTH_URL + '?' +
+          'client_id=' + CONFIG.GITHUB_CLIENT.ID +
+          '&scope=' + CONFIG.GITHUB_CLIENT.SCOPE +
           '&state=' + state +
           '&redirect_uri=' + getRedirectURL();         
       
@@ -104,7 +90,7 @@
           
           if (state !== responseState) {
             reject({
-              error: 'Cross-site request forgery detected.'
+              error: CONFIG.ALERTS.MESSAGES.OAUTH_CSRF_MESSAGE
             });
           }
           else {
@@ -120,7 +106,7 @@
             
             function errorCallback(response) {
               reject({
-                error: 'Failed to obtain access token.'
+                error: CONFIG.ALERTS.MESSAGES.OAUTH_FAILED_MESSAGE
               });
             }
           }
@@ -135,8 +121,8 @@
     function getAccessToken(code, state) {
       
       var data = {
-        client_id: githubClient.id,
-        client_secret: githubClient.secret,
+        client_id: CONFIG.GITHUB_CLIENT.ID,
+        client_secret: CONFIG.GITHUB_CLIENT.SECRET,
         code: code,
         redirect_uri: getRedirectURL(),
         state: state
@@ -149,7 +135,7 @@
       };
       
       return $http
-        .post(githubClient.tokenURL, data, config)
+        .post(CONFIG.GITHUB_CLIENT.TOKEN_URL, data, config)
         .then(successCallback)
         .catch(errorCallback);
       

@@ -40,19 +40,19 @@
     }
     
     function error(message) {
-      setAlert(message, 'alert-danger');
+      setAlert(message, CONFIG.ALERTS.STYLE_CLASSES.ERROR);
     }
     
     function info(message) {
-      setAlert(message, 'alert-info');
+      setAlert(message,  CONFIG.ALERTS.STYLE_CLASSES.INFO);
     }
     
     function success(message) {
-      setAlert(message, 'alert-success');
+      setAlert(message,  CONFIG.ALERTS.STYLE_CLASSES.SUCCESS);
     }
     
     function warning(message) {
-      setAlert(message, 'alert-warning');
+      setAlert(message,  CONFIG.ALERTS.STYLE_CLASSES.WARNING);
     }
     
     function clear() {

@@ -15,15 +15,7 @@
   
   function problemService() {
     
-    var problem = {
-      title: '',
-      desription: '',
-      type: 0,          // 0 = function, 1 = script
-      template: '',
-      solution: '',
-      visibleTests: '',
-      hiddenTests: ''
-    };
+    var problem = {};
     
     var service = {
       problem: problem,
@@ -33,8 +25,14 @@
       newProblem: newProblem
     };
     
+    init();
+    
     return service;
     ///////////////////////    
+    
+    function init() {
+      angular.copy(CONFIG.PROBLEM_TEMPLATE, problem);
+    }
     
     /*
      * Used to validate the parsed problem object keys
@@ -62,15 +60,7 @@
       
       if (prob && typeof(prob) === 'object') {
         
-        var expected_keys = [
-          'title',
-          'description',
-          'type',
-          'template',
-          'solution',
-          'visibleTests',
-          'hiddenTests'
-        ];
+        var expected_keys = Object.keys(CONFIG.PROBLEM_TEMPLATE);
         
         var keys = Object.keys(prob);
         

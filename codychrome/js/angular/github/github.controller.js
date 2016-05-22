@@ -33,7 +33,7 @@
      */
     function launchOAuth() {
       
-      alerts.warning('Launched oAuth...');
+      alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_INIT_MESSAGE);
       githubService.authenticate()
         .then(successCallback)
         .catch(errorCallback);
@@ -43,11 +43,11 @@
         $scope.$apply(function() {
           if (response.token) {
             vm.token = response.token;
-            alerts.success('Authenticated with GitHub!');
+            alerts.success(CONFIG.ALERTS.MESSAGES.OAUTH_SUCCESS_MESSAGE);
           }
           else {
             vm.token = 'No token available';
-            alerts.error('Authentication failed!');
+            alerts.error(CONFIG.ALERTS.MESSAGES.OAUTH_FAILED_MESSAGE);
           }
         });
       }

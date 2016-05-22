@@ -12,6 +12,7 @@
         
       /* shared modules */
       'alerts',
+      'user',
       'problem',
       'github'
     ]);

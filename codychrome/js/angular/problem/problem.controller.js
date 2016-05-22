@@ -51,6 +51,10 @@
       
       function listener(request, sender) {
 
+        if (request.from !== 'parser') {
+          return;
+        }
+        
         // This callback runs outside of angular's scope. We therefore need $apply to update the data bindings.
         $scope.$apply(function() {
           if (request.problem && !request.error) {
@@ -58,14 +62,14 @@
             if (problemService.isValidProblem(request.problem)) {
 
               problemService.newProblem(request.problem);
-              alerts.success(CONFIG.ALERTS.MESSAGES.PARSE_SUCCESS_MESSAGE);
+              alerts.success(CONFIG.ALERTS.MESSAGES.PARSE_SUCCESS);
             }
             else {
-              alerts.error(CONFIG.ALERTS.MESSAGES.PARSE_ERROR_MESSAGE);
+              alerts.error(CONFIG.ALERTS.MESSAGES.PARSE_ERROR);
             } 
           }
           else {
-            alerts.error(CONFIG.ALERTS.MESSAGES.PARSE_ERROR_MESSAGE);
+            alerts.error(CONFIG.ALERTS.MESSAGES.PARSE_ERROR);
           }
         });
       }

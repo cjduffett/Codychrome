@@ -27,6 +27,7 @@
     
     <!-- Angular Services -->
     <script src="/js/angular/alerts/alerts.service.js"></script>
+    <script src="/js/angular/user/user.service.js"></script>
     <script src="/js/angular/problem/problem.service.js"></script>
     <script src="/js/angular/github/github.service.js"></script>
     
@@ -70,9 +71,9 @@
       
         <div class="row">
           <div class="col-xs-10 col-xs-offset-1">
-            <button class="btn btn-primary sharp spaced" ng-click="ctrl.launchOAuth()">Authorize Github</button>
+            <button class="btn btn-primary sharp spaced" ng-click="ctrl.launchAuthentication()">Authenticate With Github</button>
             
-            <p>{{ctrl.token}}</p>
+            <p>{{ctrl.user}}</p>
           </div>
         </div>
         

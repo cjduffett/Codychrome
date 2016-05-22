@@ -13,42 +13,85 @@
     .module('github')
     .controller('GithubController', GithubController);
   
-  GithubController.$inject = ['$scope', 'alerts', 'githubService'];
+  GithubController.$inject = ['$scope', 'alerts', 'userService', 'githubService'];
   
-  function GithubController($scope, alerts, githubService) {
+  function GithubController($scope, alerts, userService, githubService) {
     var vm = this;
-    vm.repo = githubService.repo;
-    vm.user = githubService.user;
-    vm.token = 'No token available';
+    vm.user = userService.user;
     
     /* methods */
-    vm.launchOAuth = launchOAuth;
+    vm.launchAuthentication = launchAuthentication;
+    
+    init();
     
     /////////////////////
+
+    function init() {
+      
+      userService.loadUser()
+        .then(loadSuccessCallback)
+        .catch(loadErrorCallback);
+
+      function loadSuccessCallback() {
+        
+        $scope.$apply(function() {
+          
+          if (!vm.user.isAuthenticated && vm.user.interactiveAuthLaunched) {
+            /* The user has attempted interactive OAuth with GitHub, but we haven't confirmed that he/she is
+             * actually authenticated. Typically this occurs when the extension is re-launched immediately
+             * after interactive OAuth.
+             */
+            verifyAuthentication();
+          }
+        });
+      }
+
+      function loadErrorCallback() {
+        // user does not exist yet
+        $scope.$apply(function() {
+          userService.initUser();  
+        });
+      }
+    }
     
-    
-  
     /*
      * Initiates Github OAuth
      */
-    function launchOAuth() {
+    function launchAuthentication() {
       
-      alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_INIT_MESSAGE);
-      githubService.authenticate()
+      alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_INIT);
+      authenticate();
+    }
+    
+    /*
+     * Confirms GitHub OAuth
+     */
+    function verifyAuthentication() {
+      
+      alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_VERIFY);
+      authenticate();
+    }
+    
+    /*
+     * Handles interaction with userService authentication
+     */
+    
+    function authenticate() {
+      
+      if (vm.user.isAuthenticated) {
+        // we don't need to do this for users that are already authenticated
+        alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_ALREADY_AUTHENTICATED);
+        return;
+      }
+      
+      userService.authenticate()
         .then(successCallback)
         .catch(errorCallback);
       
       function successCallback(response) {
         
         $scope.$apply(function() {
-          if (response.token) {
-            vm.token = response.token;
-            alerts.success(CONFIG.ALERTS.MESSAGES.OAUTH_SUCCESS_MESSAGE);
-          }
-          else {
-            vm.token = 'No token available';
-            alerts.error(CONFIG.ALERTS.MESSAGES.OAUTH_FAILED_MESSAGE);
-          }
+          alerts.success(CONFIG.ALERTS.MESSAGES.OAUTH_SUCCESS);
         });
       }
       

@@ -7,12 +7,21 @@
 
 var CONFIG = {
   
+  DEBUG: true,
+  
+  /* Codychrome User Template */
+  USER: {
+    isAuthenticated: false,
+    interactiveAuthLaunched: false,
+    authToken: ''
+  },
+  
   /* GitHub Client */
   GITHUB_CLIENT: {
     ID: '',  // omitted in source control for security reasons
     SECRET: '',
     SCOPE: 'repo',
-    AUTH_REDIRECT_PATH: 'pages/github.html',
+    AUTH_REDIRECT_PATH: '', // redirects to the root
     AUTH_URL: 'https://github.com/login/oauth/authorize',
     TOKEN_URL: 'https://github.com/login/oauth/access_token'
   },
@@ -55,14 +64,16 @@ var CONFIG = {
     
     MESSAGES: {
       /* GitHub OAuth */
-      OAUTH_INIT_MESSAGE: 'Authenticating...',
-      OAUTH_FAILED_MESSAGE: 'Authentication failed',
-      OAUTH_SUCCESS_MESSAGE: 'Authenticated with GitHub',
-      OAUTH_CSRF_MESSAGE: 'Unsecure Authentication Detected',
+      OAUTH_INIT: 'Authenticating...',
+      OAUTH_VERIFY: 'Verifying authentication...',
+      OAUTH_FAILED: 'Authentication failed',
+      OAUTH_SUCCESS: 'Authenticated with GitHub',
+      OAUTH_CSRF: 'Unsecure Authentication Detected',
+      OAUTH_ALREADY_AUTHENTICATED: 'User is already authenticated',
 
       /* Problem Parsing */
-      PARSE_ERROR_MESSAGE: 'Failed to parse problem',
-      PARSE_SUCCESS_MESSAGE: 'Problem parsed successfully'
+      PARSE_ERROR: 'Failed to parse problem',
+      PARSE_SUCCESS: 'Problem parsed successfully'
     }
   },
   

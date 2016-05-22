@@ -8,6 +8,10 @@
 
 (function() {
   
+  /*
+   * Determines when the extension should be enabled (e.g. only for problem edit pages)
+   */
+  
   // When the extension is installed or upgraded...
   chrome.runtime.onInstalled.addListener(function() {
     // Replace all rules ...
@@ -29,6 +33,5 @@
         }
       ]);
     });
-  });
-  
+  });  
 })();

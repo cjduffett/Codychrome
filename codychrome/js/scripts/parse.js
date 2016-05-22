@@ -51,6 +51,7 @@
   
   // pass parsed problem back to the extension. Validation is handled by the extension.
   var message = {
+    from: 'parser',
     error: error,
     problem: problem
   };

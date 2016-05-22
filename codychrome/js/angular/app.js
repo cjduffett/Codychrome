@@ -13,6 +13,7 @@
       /* shared modules */
       'alerts',
       'user',
+      'oauth',
       'problem',
       'github'
     ]);

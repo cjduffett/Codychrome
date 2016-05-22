@@ -69,7 +69,8 @@ var CONFIG = {
       OAUTH_FAILED: 'Authentication failed',
       OAUTH_SUCCESS: 'Authenticated with GitHub',
       OAUTH_CSRF: 'Unsecure Authentication Detected',
-      OAUTH_ALREADY_AUTHENTICATED: 'User is already authenticated',
+      OAUTH_ALREADY_AUTHENTICATED: 'Already authenticated',
+      OAUTH_RETRY: 'Please retry authentication',
 
       /* Problem Parsing */
       PARSE_ERROR: 'Failed to parse problem',

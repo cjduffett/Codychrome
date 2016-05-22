@@ -28,12 +28,13 @@
     <!-- Angular Services -->
     <script src="/js/angular/alerts/alerts.service.js"></script>
     <script src="/js/angular/user/user.service.js"></script>
+    <script src="/js/angular/oauth/oauth.service.js"></script>
     <script src="/js/angular/problem/problem.service.js"></script>
     <script src="/js/angular/github/github.service.js"></script>
     
     <!-- Angular Controllers -->
     <script src="/js/angular/alerts/alerts.controller.js"></script>
-    <script src="/js/angular/problem/problem.controller.js"></script>
+    <script src="/js/angular/oauth/oauth.controller.js"></script>
     <script src="/js/angular/github/github.controller.js"></script>
   </head>
   
@@ -67,7 +68,7 @@
         </div>
       </div>
       
-      <div ng-controller="GithubController as ctrl">
+      <div ng-controller="OAuthController as ctrl">
       
         <div class="row">
           <div class="col-xs-10 col-xs-offset-1">

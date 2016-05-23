@@ -26,8 +26,8 @@ var CONFIG = {
   
   /* GitHub Client */
   GITHUB_CLIENT: {
-    ID: '1f2110af226993c5f6ad',  // omitted in source control for security reasons
-    SECRET: '58739bdf0a2c2db873c77b598e51bacc2c7287fe',
+    ID: '',  // omitted in source control for security reasons
+    SECRET: '',
     SCOPE: 'repo',
     AUTH_REDIRECT_PATH: '', // redirects to the root
     AUTH_URL: 'https://github.com/login/oauth/authorize',

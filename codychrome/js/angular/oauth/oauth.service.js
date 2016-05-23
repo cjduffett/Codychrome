@@ -32,13 +32,6 @@
       
       return new Promise(function(resolve, reject) {
         
-        if (userService.user.isAuthenticated) {
-          reject({
-            error: CONFIG.ALERTS.MESSAGES.OAUTH_ALREADY_AUTHENTICATED
-          });
-          return;
-        }
-        
         // STEP 1: Get an access code from GitHub's OAuth API
         getAccessCode()
           .then(successCallback)

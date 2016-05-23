@@ -16,14 +16,28 @@ var CONFIG = {
     authToken: ''
   },
   
+  /* Common Headers in all HTTP requests */
+  HTTP: {
+    HEADERS: {
+      'User-Agent': 'Codychrome',
+      'Accept': 'application/json'
+    }
+  },
+  
   /* GitHub Client */
   GITHUB_CLIENT: {
-    ID: '',  // omitted in source control for security reasons
-    SECRET: '',
+    ID: '1f2110af226993c5f6ad',  // omitted in source control for security reasons
+    SECRET: '58739bdf0a2c2db873c77b598e51bacc2c7287fe',
     SCOPE: 'repo',
     AUTH_REDIRECT_PATH: '', // redirects to the root
     AUTH_URL: 'https://github.com/login/oauth/authorize',
-    TOKEN_URL: 'https://github.com/login/oauth/access_token'
+    TOKEN_URL: 'https://github.com/login/oauth/access_token',
+  },
+  
+  /* GitHub API Routes */
+  GITHUB_API: {
+    ROOT: 'https://api.github.com/',
+    VERIFY_TOKEN_URL: 'applications/:client_id/tokens/:access_token',  
   },
 
   /* Cody Coursework Problem Parser */
@@ -70,6 +84,7 @@ var CONFIG = {
       OAUTH_SUCCESS: 'Authenticated with GitHub',
       OAUTH_CSRF: 'Unsecure Authentication Detected',
       OAUTH_ALREADY_AUTHENTICATED: 'Already authenticated',
+      OAUTH_NOT_AUTHENTICATED: 'Not authenticated with GitHub',
       OAUTH_RETRY: 'Please retry authentication',
 
       /* Problem Parsing */
@@ -85,3 +100,8 @@ var CONFIG = {
     PARSER: '/js/scripts/parse.js'
   }
 };
+
+/*
+ * Any additional dynamic config needed
+ */
+CONFIG.GITHUB_API.VERIFY_TOKEN_URL = 'applications/' + CONFIG.GITHUB_CLIENT.ID + '/tokens/'; // + the user's token

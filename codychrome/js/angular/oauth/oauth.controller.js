@@ -37,25 +37,20 @@
         
         $scope.$apply(function() {
           
-          if (userService.user.isAuthenticated) {
-            alerts.success(CONFIG.ALERTS.MESSAGES.OAUTH_SUCCESS);
+          if (!userService.user.isAuthenticated && !userService.user.interactiveAuthLaunched) {
+            alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED);
             return;
           }
           
-          if (!userService.user.isAuthenticated && userService.user.interactiveAuthLaunched) {
-            /* The user has attempted interactive OAuth with GitHub, but we haven't confirmed that he/she is
-             * actually authenticated. Typically this occurs when the extension is re-launched immediately
-             * after interactive OAuth.
-             */
-            verifyAuthentication();
-          }
+          verifyAuthentication();
         });
       }
 
       function loadErrorCallback() {
         // user does not exist yet
         $scope.$apply(function() {
-          userService.initUser();  
+          userService.initUser();
+          alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED);
         });
       }
     }
@@ -83,28 +78,20 @@
      */
     
     function authenticate() {
-      
-      if (userService.user.isAuthenticated) {
-        // we don't need to do this for users that are already authenticated
-        alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_ALREADY_AUTHENTICATED);
-        return;
-      }
-      
       oauthService.authenticate()
-        .then(successCallback)
-        .catch(errorCallback);
+        .then(authVerified)
+        .catch(authFailed);
       
-      function successCallback(response) {
-        
+      
+      function authVerified() {
         $scope.$apply(function() {
           alerts.success(CONFIG.ALERTS.MESSAGES.OAUTH_SUCCESS);
         });
       }
-      
-      function errorCallback(response) {
-        
+
+      function authFailed() {
         $scope.$apply(function() {
-          alerts.error(response.error);
+          alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED);
         });
       }
     }

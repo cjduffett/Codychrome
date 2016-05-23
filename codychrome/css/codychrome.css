@@ -51,7 +51,15 @@ textarea.spaced {
 }
 
 .github-form {
-    margin-top: 10px;
+  margin-top: 10px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.checkbox {
+  margin-bottom: 20px;
 }
 
 .center-content {

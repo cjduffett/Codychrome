@@ -18,6 +18,7 @@
   
   function OAuthController($scope, alerts, oauthService, userService) {
     var vm = this;
+    vm.initializing = true;
     vm.user = userService.user;
     
     /* methods */
@@ -43,6 +44,7 @@
           }
           
           verifyAuthentication();
+          vm.initializing = false;
         });
       }
 
@@ -50,6 +52,7 @@
         // user does not exist yet
         $scope.$apply(function() {
           userService.initUser();
+          vm.initializing = false;
           alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED);
         });
       }

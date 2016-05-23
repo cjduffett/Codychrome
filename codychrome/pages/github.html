@@ -69,39 +69,34 @@
       </div>
       
       <div ng-controller="OAuthController as ctrl">
-      
         <div class="row">
           <div class="col-xs-10 col-xs-offset-1">
-            <button class="btn btn-primary sharp spaced" ng-click="ctrl.launchAuthentication()">Authorize Github</button>
-            
-            <p>{{ctrl.user}}</p>
+            <button class="btn btn-primary sharp spaced" ng-click="ctrl.launchAuthentication()" ng-disabled="ctrl.initializing || ctrl.user.isAuthenticated">Authorize Github</button>
           </div>
         </div>
+      </div> 
         
-        <!-- GitHub Credentials
+      <!-- GitHub Repo Settings -->
+      <hr/>
+      <div ng-controller="GithubController as ctrl">
         <div class="row github-form">
           <div class="col-xs-10 col-xs-offset-1">
-            <form role="form" novalidate ng-submit="ctrl.saveCredentials()">
+            <form role="form" novalidate ng-submit="ctrl.saveRepoSettings()">
               <div class="form-group">
                 <label for="repo">GitHub Repository:</label>
-                <input id="repo" type="text" name="repo" class="form-control" ng-model="ctrl.repo.path" ng-required="true" placeholder="Enter the URL to your GitHub repository">
+                <input id="repo" type="text" name="repo" class="form-control" ng-model="ctrl.foo" ng-required="true" placeholder="Enter the URL to your GitHub repository">
               </div>
-              <div class="form-group">
-                <label for="username">GitHub Username:</label>
-                <input id="username" type="text" name="username" class="form-control" ng-model="ctrl.repo.user.username" ng-required="true">
-              </div>
-              <div class="form-group">
-                <label for="password">GitHub Password:</label>
-                <input id="password" type="password" name="password" class="form-control" ng-model="ctrl.repo.user.password" ng-required="true">
+              <div class="checkbox" style="margin-bottom: 50px;">
+                <label><input id="org" type="checkbox" name="org" ng-model="ctrl.bar" ng-required="true">Organize by Assignment</label>
               </div>
               <div class="center-content">
                 <input type="submit" class="btn btn-primary sharp spaced" name="save" value="Save">
               </div>
             </form>
-
           </div>
         </div>
        </div> 
+
     </div>
   </body>
 </html>

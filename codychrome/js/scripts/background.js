@@ -24,7 +24,7 @@
             new chrome.declarativeContent.PageStateMatcher({
               pageUrl: {
                 urlContains: 'coursework.mathworks.com/courses/',
-                urlSuffix: 'edit'
+                // urlSuffix: 'edit'
               },
             })
           ],

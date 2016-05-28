@@ -71,7 +71,8 @@
       <div ng-controller="OAuthController as ctrl">
         <div class="row">
           <div class="col-xs-10 col-xs-offset-1">
-            <button class="btn btn-primary sharp spaced" ng-click="ctrl.launchAuthentication()" ng-disabled="ctrl.initializing || ctrl.user.isAuthenticated">Authorize Github</button>
+            <p class="username" ng-show="ctrl.user.isAuthenticated"><strong>Username: </strong> {{ctrl.user.username}}</p>
+            <button class="btn btn-primary sharp spaced" ng-click="ctrl.launchAuthentication()" ng-disabled="ctrl.user.isAuthenticated">Authorize Github</button>
           </div>
         </div>
       </div> 

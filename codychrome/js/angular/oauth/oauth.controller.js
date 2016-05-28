@@ -18,7 +18,6 @@
   
   function OAuthController($scope, alerts, oauthService, userService) {
     var vm = this;
-    vm.initializing = true;
     vm.user = userService.user;
     
     /* methods */
@@ -44,7 +43,6 @@
           }
           
           verifyAuthentication();
-          vm.initializing = false;
         });
       }
 
@@ -52,7 +50,6 @@
         // user does not exist yet
         $scope.$apply(function() {
           userService.initUser();
-          vm.initializing = false;
           alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED);
         });
       }
@@ -83,16 +80,31 @@
     function authenticate() {
       oauthService.authenticate()
         .then(authVerified)
-        .catch(authFailed);
-      
+        .catch(authFailed); 
       
       function authVerified() {
-        $scope.$apply(function() {
-          alerts.success(CONFIG.ALERTS.MESSAGES.OAUTH_SUCCESS);
-        });
+        
+        oauthService.getUsername()
+          .then(userIdentified)
+          .catch(userNotIdentified);
+        
+        function userIdentified() {
+          $scope.$apply(function() {
+            alerts.success(CONFIG.ALERTS.MESSAGES.OAUTH_SUCCESS);
+          });
+        }
+        
+        function userNotIdentified() {
+          // the only way user identification fails is if the user is not authenticated
+          userService.resetUserAuth();
+          $scope.$apply(function() {
+            alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_FAILED);
+          }); 
+        }
       }
 
       function authFailed() {
+        userService.resetUserAuth();
         $scope.$apply(function() {
           alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED);
         });

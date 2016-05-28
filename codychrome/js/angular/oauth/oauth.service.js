@@ -19,7 +19,8 @@
   
     var service = {
       /* methods */
-      authenticate: authenticate
+      authenticate: authenticate,
+      getUsername: getUsername
     };
     
     return service;
@@ -172,7 +173,7 @@
         redirect_uri: getRedirectURL(),
         state: state
       };
-      
+            
       var config = {
         headers: {
           'Accept': 'application/json'
@@ -191,6 +192,48 @@
       function errorCallback(response) {
         return null;
       }
+    }
+    
+    /*
+     * Gets the authenticated user's information from GitHub.
+     */
+    function getUsername() {
+      
+      return new Promise(function(resolve, reject) {
+        
+        if (!userService.user.isAuthenticated) {
+          reject({
+            error: CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED
+          });
+          return;
+        }
+        
+        var url = CONFIG.GITHUB_API.ROOT + CONFIG.GITHUB_API.GET_USER_URL;
+        
+        var config = {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Token ' + userService.user.authToken
+          }
+        };
+        
+        $http.get(url, config)
+          .then(successCallback)
+          .catch(errorCallback);
+        
+        function successCallback(response) {
+          // for now we just extract the user's GitHub username from the response.
+          userService.user.username = response.data.login;
+          userService.saveUser().then(resolve);
+        }
+        
+        function errorCallback(response) {
+         
+          reject({
+            error: CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED
+          });
+        }
+      });
     }
   }
   

@@ -11,9 +11,28 @@ var CONFIG = {
   
   /* Codychrome User Template */
   USER: {
+    username: '',
     isAuthenticated: false,
     interactiveAuthLaunched: false,
     authToken: ''
+  },
+  
+  /* Codychrome GitHub Repo Data */
+  REPO: {
+    name: 'cody-coursework',  // the default repository name
+    auto_init: true,
+    private: false,
+    org_by_assignment: true
+  },
+  
+  COMMIT: {
+    message: ''
+  },
+  
+  FILE: {
+    path: '',
+    content: '',  // base64 encoded file contents
+    sha: ''       // sha1 hash of file contents
   },
   
   /* Common Headers in all HTTP requests */
@@ -37,7 +56,8 @@ var CONFIG = {
   /* GitHub API Routes */
   GITHUB_API: {
     ROOT: 'https://api.github.com/',
-    VERIFY_TOKEN_URL: 'applications/:client_id/tokens/:access_token',  
+    VERIFY_TOKEN_URL: 'applications/:client_id/tokens/:access_token',
+    GET_USER_URL: 'user'
   },
 
   /* Cody Coursework Problem Parser */

@@ -102,7 +102,11 @@ var CONFIG = {
 
       /* Problem Parsing */
       PARSE_ERROR: 'Failed to parse problem',
-      PARSE_SUCCESS: 'Problem parsed successfully'
+      PARSE_SUCCESS: 'Problem parsed successfully',
+      
+      /* GitHub Repository */
+      REPO_SAVE_SUCCESS: 'Repository updated',
+      REPO_SAVE_FAILED: 'Failed to update repository'
     }
   },
   

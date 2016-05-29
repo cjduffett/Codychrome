@@ -27,11 +27,7 @@
       /* methods */
       initRepo: initRepo,
       loadRepo: loadRepo,
-      saveRepo: saveRepo,
-      newCommit: newCommit,
-      fileExists: fileExists,
-      createNewFile: createNewFile,
-      updateFile: updateFile
+      saveRepo: saveRepo
     };
 
     return service;

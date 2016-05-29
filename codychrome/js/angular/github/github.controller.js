@@ -13,20 +13,21 @@
     .module('github')
     .controller('GithubController', GithubController);
   
-  GithubController.$inject = ['$scope', 'alerts', 'userService', 'githubService'];
+  GithubController.$inject = ['$scope', 'alerts', 'userService', 'githubService', 'problemService'];
   
-  function GithubController($scope, alerts, userService, githubService) {
+  function GithubController($scope, alerts, userService, githubService, problemService) {
     var vm = this;
     vm.repo = githubService.repo;
     
     /* methods */
     vm.saveRepo = saveRepo;
+    vm.commit = commit;
     
     init();
     ///////////////////////
     
     function init() {
-      
+
       initUser().then(initRepo);
     }
     
@@ -55,9 +56,7 @@
 
         function loadErrorCallback() {
           // user does not exist yet
-          $scope.$apply(function() {
-            userService.initUser().then(resolve);
-          });
+          userService.initUser().then(resolve);
         }
       });
     }
@@ -75,7 +74,9 @@
           .catch(loadErrorCallback);
 
         function loadSuccessCallback() {
-          resolve();
+          $scope.$apply(function() {
+            resolve();
+          });
         }
 
         function loadErrorCallback() {
@@ -96,17 +97,21 @@
         function saveSuccessCallback() {
           $scope.$apply(function() {
             alerts.success(CONFIG.ALERTS.MESSAGES.REPO_SAVE_SUCCESS);
+            resolve();
           });
-          resolve();
         }
         
         function saveErrorCallback() {
           $scope.$apply(function() {
             alerts.error(CONFIG.ALERTS.MESSAGES.REPO_SAVE_FAILED);
+            reject();
           });
-          reject();
         };
       });
+    }
+    
+    function commit() {
+      console.log(problemService.problem); // <<<<< LEFT OFF HERE
     }
   }
   

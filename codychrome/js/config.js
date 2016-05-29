@@ -117,7 +117,8 @@ var CONFIG = {
       COMMIT_UPDATE_PROBLEM: 'Updating problem...',
       COMMIT_FAILED: 'Failed to commit to GitHub',
       COMMIT_SUCCESS: 'Committed successfully',
-      COMMIT_NO_MESSAGE: 'Please enter a comment'
+      COMMIT_NO_MESSAGE: 'Please enter a comment',
+      COMMIT_NO_PROBLEM: 'No parsed problem to commit'
     }
   },
   

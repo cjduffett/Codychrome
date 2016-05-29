@@ -24,7 +24,7 @@
     
     /* methods */
     vm.saveRepo = saveRepo;
-    vm.commit = commit;
+    vm.commitProblem = commitProblem;
     
     init();
     ///////////////////////
@@ -91,16 +91,20 @@
     /*
      * Commits the parsed problem to GitHub
      */
-    function commit() {
+    function commitProblem() {
       
       if (!userService.user.isAuthenticated) {
-        // the user just plain isn't authenticated
         alerts.error(CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED);
         return;
       }
       
-      if (!commit.message) {
+      if (!vm.commit.message) {
         alerts.error(CONFIG.ALERTS.MESSAGES.COMMIT_NO_MESSAGE);
+        return;
+      }
+      
+      if (!problemService.isCompleteProblem(problemService.problem)) {
+        alerts.error(CONFIG.ALERTS.MESSAGES.COMMIT_NO_PROBLEM);
         return;
       }
       
@@ -109,7 +113,7 @@
       function doCommit() {
         console.log(userService.user);
         console.log(githubService.repo);
-        console.log(githubService.commit);
+        console.log(vm.commit);
         console.log(problemService.problem); // <<<<< LEFT OFF HERE
         alerts.success('Committed beyotch!');
       }

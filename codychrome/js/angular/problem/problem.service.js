@@ -22,6 +22,7 @@
       
       /* methods */
       isValidProblem: isValidProblem,
+      isCompleteProblem: isCompleteProblem,
       newProblem: newProblem
     };
     

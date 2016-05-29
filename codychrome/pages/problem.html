@@ -87,7 +87,7 @@
       <div ng-controller="GithubController as ctrl">
         <div class="row">
           <div class="col-xs-10 col-xs-offset-1">
-            <form role="form" name="form" novalidate ng-submit="ctrl.commit()">
+            <form role="form" name="form" novalidate ng-submit="ctrl.commitProblem()">
               <label for="message">Comment:</label>
               <textarea class="form-control spaced" name="message" ng-model="ctrl.commit.message" placeholder="Add a comment" rows="4" required ng-class="{'invalid': (form.$submitted && !ctrl.commit.message)}"></textarea>
               <div class="center-content">

@@ -31,6 +31,7 @@
     <script src="/js/angular/oauth/oauth.service.js"></script>
     <script src="/js/angular/problem/problem.service.js"></script>
     <script src="/js/angular/github/github.service.js"></script>
+    <script src="/js/angular/github/github.api.service.js"></script>
     
     <!-- Angular Controllers -->
     <script src="/js/angular/alerts/alerts.controller.js"></script>
@@ -71,7 +72,7 @@
       <div ng-controller="OAuthController as ctrl">
         <div class="row">
           <div class="col-xs-10 col-xs-offset-1">
-            <p class="username" ng-show="ctrl.user.isAuthenticated"><strong>Username: </strong> {{ctrl.user.username}}</p>
+            <p class="username" ng-show="ctrl.user.isAuthenticated"><strong>Username: &nbsp;{{ctrl.user.username}}</strong></p>
             <button class="btn btn-primary sharp spaced" ng-click="ctrl.launchAuthentication()" ng-disabled="ctrl.user.isAuthenticated">Authorize Github</button>
           </div>
         </div>

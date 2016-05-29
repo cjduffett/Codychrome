@@ -13,9 +13,9 @@
     .module('oauth', [])
     .factory('oauthService', oauthService);
   
-  oauthService.$inject = ['$http', 'userService'];
+  oauthService.$inject = ['$http', 'apiService', 'userService'];
   
-  function oauthService($http, userService) {
+  function oauthService($http, apiService, userService) {
   
     var service = {
       /* methods */
@@ -68,7 +68,7 @@
      * Generates redirect URL from initial GitHub OAuth request
      */
     function getRedirectURL() {
-      return chrome.identity.getRedirectURL() + CONFIG.GITHUB_CLIENT.AUTH_REDIRECT_PATH;
+      return chrome.identity.getRedirectURL() + CONFIG.GITHUB_API.AUTH_REDIRECT_PATH;
     }
         
     /*
@@ -81,10 +81,10 @@
         // used to prevent CSRF in OAuth request
         var state = getState();
 
-        var url = CONFIG.GITHUB_CLIENT.AUTH_URL + '?' +
+        var url = CONFIG.GITHUB_API.WEB_ROOT + CONFIG.GITHUB_API.AUTH_URL + '?' +
             'client_id=' + CONFIG.GITHUB_CLIENT.ID +
             '&scope=' + CONFIG.GITHUB_CLIENT.SCOPE +
-            '&state=' + state +
+            '&state=' + state //+
             '&redirect_uri=' + encodeURIComponent(getRedirectURL());         
 
         var details = {
@@ -96,6 +96,7 @@
           // the user has not attempted interactive OAuth yet
           userService.user.interactiveAuthLaunched = true;
           userService.saveUser().then(function() {
+
             chrome.identity.launchWebAuthFlow(details, authResponse);
             /*
              * NOTE: Since launching the web auth flow takes focus away from the popup, the popup
@@ -175,13 +176,12 @@
       };
             
       var config = {
-        headers: {
-          'Accept': 'application/json'
-        }
+        method: 'POST',
+        url: CONFIG.GITHUB_API.TOKEN_URL,
+        data: data
       };
       
-      return $http
-        .post(CONFIG.GITHUB_CLIENT.TOKEN_URL, data, config)
+      return apiService.sendWebRequest(config)
         .then(successCallback)
         .catch(errorCallback);
       
@@ -208,16 +208,12 @@
           return;
         }
         
-        var url = CONFIG.GITHUB_API.ROOT + CONFIG.GITHUB_API.GET_USER_URL;
-        
         var config = {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Token ' + userService.user.authToken
-          }
+          method: 'GET',
+          url: CONFIG.GITHUB_API.GET_USER_URL
         };
         
-        $http.get(url, config)
+        apiService.sendAuthenticatedRequest(config)
           .then(successCallback)
           .catch(errorCallback);
         

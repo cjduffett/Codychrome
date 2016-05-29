@@ -35,27 +35,20 @@ var CONFIG = {
     sha: ''       // sha1 hash of file contents
   },
   
-  /* Common Headers in all HTTP requests */
-  HTTP: {
-    HEADERS: {
-      'User-Agent': 'Codychrome',
-      'Accept': 'application/json'
-    }
-  },
-  
   /* GitHub Client */
   GITHUB_CLIENT: {
     ID: '',  // omitted in source control for security reasons
     SECRET: '',
-    SCOPE: 'repo',
-    AUTH_REDIRECT_PATH: '', // redirects to the root
-    AUTH_URL: 'https://github.com/login/oauth/authorize',
-    TOKEN_URL: 'https://github.com/login/oauth/access_token',
+    SCOPE: 'repo'
   },
   
   /* GitHub API Routes */
   GITHUB_API: {
-    ROOT: 'https://api.github.com/',
+    WEB_ROOT: 'https://github.com/',
+    API_ROOT: 'https://api.github.com/',
+    AUTH_URL: 'login/oauth/authorize',
+    AUTH_REDIRECT_PATH: '', // redirects to the root
+    TOKEN_URL: 'login/oauth/access_token',
     VERIFY_TOKEN_URL: 'applications/:client_id/tokens/:access_token',
     GET_USER_URL: 'user'
   },

@@ -20,6 +20,7 @@ var CONFIG = {
   /* Codychrome GitHub Repo Data */
   REPO: {
     name: 'cody-coursework',  // the default repository name
+    description: 'Cody Coursework problems managed by Codychrome',
     auto_init: true,
     private: false,
     org_by_assignment: true
@@ -45,8 +46,10 @@ var CONFIG = {
     AUTH_URL: 'login/oauth/authorize',
     AUTH_REDIRECT_PATH: '', // redirects to the root
     TOKEN_URL: 'login/oauth/access_token',
-    VERIFY_TOKEN_URL: 'applications/:client_id/tokens/:access_token',
-    GET_USER_URL: 'user'
+    GET_USER_URL: 'user',
+    GET_REPO_URL: 'repos/:username/:repo_name',
+    CREATE_REPO_URL: 'user/repos',
+    FILE_URL: 'repos/:username/:repo_name/contents/:path'
   },
 
   /* Cody Coursework Problem Parser */
@@ -112,13 +115,13 @@ var CONFIG = {
       
       /* GitHub Commit */
       COMMIT_INIT: 'Committing to GitHub...',
-      COMMIT_NEW_REPO: 'Creating a new repository...',
-      COMMIT_NEW_PROBLEM: 'Creating a new problem...',
-      COMMIT_UPDATE_PROBLEM: 'Updating problem...',
+      COMMIT_VERIFYING_REPO: 'Verifying repository...',
+      COMMIT_UPDATING_PROBLEM: 'Updating problem...',
       COMMIT_FAILED: 'Failed to commit to GitHub',
       COMMIT_SUCCESS: 'Committed successfully',
       COMMIT_NO_MESSAGE: 'Please enter a comment',
-      COMMIT_NO_PROBLEM: 'No parsed problem to commit'
+      COMMIT_NO_PROBLEM: 'No parsed problem to commit',
+      COMMIT_NO_CHANGES: 'No changes to commit'
     }
   },
   
@@ -129,8 +132,3 @@ var CONFIG = {
     PARSER: '/js/scripts/parse.js'
   }
 };
-
-/*
- * Any additional dynamic config needed
- */
-CONFIG.GITHUB_API.VERIFY_TOKEN_URL = 'applications/' + CONFIG.GITHUB_CLIENT.ID + '/tokens/'; // + the user's token

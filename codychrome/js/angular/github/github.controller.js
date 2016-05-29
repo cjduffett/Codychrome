@@ -93,6 +93,8 @@
      */
     function commitProblem() {
       
+      alerts.info(CONFIG.ALERTS.MESSAGES.COMMIT_INIT);
+      
       if (!userService.user.isAuthenticated) {
         alerts.error(CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED);
         return;
@@ -108,14 +110,44 @@
         return;
       }
       
-      doCommit();
+      // check if repository exists yet
+      githubService.getOrCreateRepo()
+        .then(repoSuccess)
+        .catch(repoError);
       
-      function doCommit() {
-        console.log(userService.user);
-        console.log(githubService.repo);
-        console.log(vm.commit);
-        console.log(problemService.problem); // <<<<< LEFT OFF HERE
-        alerts.success('Committed beyotch!');
+      function repoSuccess() {
+        
+        githubService.createOrUpdateProblem(problemService.problem, vm.commit.message)
+          .then(problemSuccess)
+          .catch(problemError);
+      }
+      
+      function repoError(reponse) {
+        $scope.$apply(function() {
+          if (reponse.error) {
+            alerts.error(reponse.error);
+          }
+          else {
+            alerts.error(CONFIG.ALERTS.MESSAGES.COMMIT_FAILED);
+          }
+        });
+      }
+      
+      function problemSuccess() {
+        $scope.$apply(function() {
+          alerts.success(CONFIG.ALERTS.MESSAGES.COMMIT_SUCCESS);
+        });  
+      }
+      
+      function problemError(response) {
+        $scope.$apply(function() {
+          if (response.error) {
+            alerts.error(response.error);
+          }
+          else {
+            alerts.error(CONFIG.ALERTS.MESSAGES.COMMIT_FAILED);
+          }
+        });
       }
     }
   }

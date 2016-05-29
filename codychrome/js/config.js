@@ -24,11 +24,7 @@ var CONFIG = {
     private: false,
     org_by_assignment: true
   },
-  
-  COMMIT: {
-    message: ''
-  },
-  
+    
   FILE: {
     path: '',
     content: '',  // base64 encoded file contents
@@ -70,6 +66,11 @@ var CONFIG = {
   
   /* Cody Coursework Problem Template */
   PROBLEM_TEMPLATE: {
+    meta: {
+      courseName: '',
+      assignmentName: '',   // assignment and problem name are slugs parsed from the page's URL
+      problemName: '' 
+    },
     title: '',
     description: '',
     type: 0,
@@ -106,7 +107,17 @@ var CONFIG = {
       
       /* GitHub Repository */
       REPO_SAVE_SUCCESS: 'Repository updated',
-      REPO_SAVE_FAILED: 'Failed to update repository'
+      REPO_SAVE_FAILED: 'Failed to update repository',
+      REPO_NAME_INVALID: 'Please enter a valid repository name',
+      
+      /* GitHub Commit */
+      COMMIT_INIT: 'Committing to GitHub...',
+      COMMIT_NEW_REPO: 'Creating a new repository...',
+      COMMIT_NEW_PROBLEM: 'Creating a new problem...',
+      COMMIT_UPDATE_PROBLEM: 'Updating problem...',
+      COMMIT_FAILED: 'Failed to commit to GitHub',
+      COMMIT_SUCCESS: 'Committed successfully',
+      COMMIT_NO_MESSAGE: 'Please enter a comment'
     }
   },
   

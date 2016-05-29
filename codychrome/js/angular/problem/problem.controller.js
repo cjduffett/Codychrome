@@ -61,7 +61,14 @@
 
             if (problemService.isValidProblem(request.problem)) {
 
-              problemService.newProblem(request.problem);
+              // we infer the problem's course, assignment, and problem name from the tab's URL
+              var meta = {
+                courseName: getCourseName(tab.url),
+                assignmentName: getAssignmentName(tab.url),
+                problemName: getProblemName(tab.url)
+              };
+              
+              problemService.newProblem(request.problem, meta);
               alerts.success(CONFIG.ALERTS.MESSAGES.PARSE_SUCCESS);
             }
             else {
@@ -96,6 +103,32 @@
       
     }
     
+    /*
+     * Parses a problem's course name from the current tab's URL
+     * FORMAT:
+     * https://coursework.mathworks.com/courses/<coursename>/assignments/<assignment_name>/problems/<problem_name>/edit
+     */
+    function getCourseName(url) {
+      return url.split('/')[4];
+    }
+    
+    /*
+     * Parses a problem's assignment name from the current tab's URL
+     * FORMAT:
+     * https://coursework.mathworks.com/courses/<coursename>/assignments/<assignment_name>/problems/<problem_name>/edit
+     */
+    function getAssignmentName(url) {
+      return url.split('/')[6];  
+    }
+    
+    /*
+     * Parses a problem's filename from the current tab's URL
+     * FORMAT:
+     * https://coursework.mathworks.com/courses/<coursename>/assignments/<assignment_name>/problems/<problem_name>/edit
+     */
+    function getProblemName(url) {
+      return url.split('/')[8];
+    }
   }
   
 })();

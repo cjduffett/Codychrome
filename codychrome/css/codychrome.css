@@ -74,6 +74,10 @@ body, section {
   margin-top: 40px;
 }
 
+.invalid {
+  outline: 1px solid red;
+}
+
 /* custom button styles */
 .btn {
     padding: 14px 24px;

@@ -7,15 +7,7 @@
  */
 (function() {
   
-  var problem = {
-    title: '',
-    description: '',
-    type: 0,
-    template: '',
-    solution: '',
-    visibleTests: '',
-    hiddenTests: ''
-  };
+  var problem = Object.assign({}, CONFIG.PROBLEM_TEMPLATE);
   
   var error = false;
   

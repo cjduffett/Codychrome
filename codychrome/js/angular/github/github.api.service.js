@@ -11,7 +11,7 @@
   'use strict';
   
   angular
-    .module('github')
+    .module('github', [])
     .factory('apiService', apiService);
   
   apiService.$inject = ['$http', 'userService'];

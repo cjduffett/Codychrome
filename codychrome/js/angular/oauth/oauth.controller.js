@@ -19,7 +19,7 @@
   function OAuthController($scope, alerts, oauthService, userService) {
     var vm = this;
     vm.user = userService.user;
-    
+
     /* methods */
     vm.launchAuthentication = launchAuthentication;
     

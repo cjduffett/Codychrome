@@ -30,8 +30,8 @@
     <script src="/js/angular/user/user.service.js"></script>
     <script src="/js/angular/oauth/oauth.service.js"></script>
     <script src="/js/angular/problem/problem.service.js"></script>
-    <script src="/js/angular/github/github.service.js"></script>
     <script src="/js/angular/github/github.api.service.js"></script>
+    <script src="/js/angular/github/github.service.js"></script>
     
     <!-- Angular Controllers -->
     <script src="/js/angular/alerts/alerts.controller.js"></script>
@@ -83,13 +83,13 @@
       <div ng-controller="GithubController as ctrl">
         <div class="row github-form">
           <div class="col-xs-10 col-xs-offset-1">
-            <form role="form" novalidate ng-submit="ctrl.saveRepo()">
+            <form role="form" name="form" novalidate ng-submit="ctrl.saveRepo()">
               <div class="form-group">
                 <label for="repo">GitHub Repository:</label>
-                <input id="repo" type="text" name="repo" class="form-control" ng-model="ctrl.repo.name" ng-required="true" placeholder="Enter the URL to your GitHub repository">
+                <input id="repo" type="text" name="repo" class="form-control" ng-model="ctrl.repo.name" required placeholder="Enter the URL to your GitHub repository" ng-class="{'invalid': (form.$submitted && !ctrl.repo.name)}">
               </div>
-              <div class="checkbox" style="margin-bottom: 50px;">
-                <label><input id="org_by_assignment" type="checkbox" name="org_by_assignment" ng-model="ctrl.repo.org_by_assignment" ng-required="true">Organize by Assignment</label>
+              <div class="checkbox">
+                <label><input id="org_by_assignment" type="checkbox" name="org_by_assignment" ng-model="ctrl.repo.org_by_assignment">Organize by Assignment</label>
               </div>
               <div class="center-content">
                 <input type="submit" class="btn btn-primary sharp spaced" name="save" value="Save">

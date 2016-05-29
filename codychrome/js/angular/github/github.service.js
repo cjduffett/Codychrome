@@ -10,7 +10,7 @@
   'use strict';
   
   angular
-    .module('github', [])
+    .module('github')
     .factory('githubService', githubService);
   
   githubService.$inject = ['$http'];

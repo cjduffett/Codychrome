@@ -13,11 +13,14 @@
     .module('github')
     .controller('GithubController', GithubController);
   
-  GithubController.$inject = ['$scope', 'alerts', 'userService', 'githubService', 'problemService'];
+  GithubController.$inject = ['$scope', 'alerts', 'oauthService', 'userService', 'githubService', 'problemService'];
   
-  function GithubController($scope, alerts, userService, githubService, problemService) {
+  function GithubController($scope, alerts, oauthService, userService, githubService, problemService) {
     var vm = this;
     vm.repo = githubService.repo;
+    vm.commit = {
+      message: ''
+    };
     
     /* methods */
     vm.saveRepo = saveRepo;
@@ -28,39 +31,9 @@
     
     function init() {
 
-      initUser().then(initRepo);
+      initRepo();
     }
-    
-    /*
-     * Initializes the User Service
-     */
-    
-    function initUser() {
       
-      return new Promise(function(resolve, reject) {
-        
-        userService.loadUser()
-          .then(loadSuccessCallback)
-          .catch(loadErrorCallback);
-
-        function loadSuccessCallback() {
-
-          $scope.$apply(function() {
-
-            if (!userService.user.isAuthenticated) {
-              alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED);
-            }
-            resolve();
-          });
-        }
-
-        function loadErrorCallback() {
-          // user does not exist yet
-          userService.initUser().then(resolve);
-        }
-      });
-    }
-    
     /*
      * Initializes the GitHub repository
      */
@@ -90,6 +63,11 @@
       
       return new Promise(function(resolve, reject) {
         
+        if (!vm.repo.name) {
+          alerts.error(CONFIG.ALERTS.MESSAGES.REPO_NAME_INVALID);
+          return;
+        }
+        
         githubService.saveRepo()
           .then(saveSuccessCallback)
           .catch(saveErrorCallback);
@@ -110,8 +88,31 @@
       });
     }
     
+    /*
+     * Commits the parsed problem to GitHub
+     */
     function commit() {
-      console.log(problemService.problem); // <<<<< LEFT OFF HERE
+      
+      if (!userService.user.isAuthenticated) {
+        // the user just plain isn't authenticated
+        alerts.error(CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED);
+        return;
+      }
+      
+      if (!commit.message) {
+        alerts.error(CONFIG.ALERTS.MESSAGES.COMMIT_NO_MESSAGE);
+        return;
+      }
+      
+      doCommit();
+      
+      function doCommit() {
+        console.log(userService.user);
+        console.log(githubService.repo);
+        console.log(githubService.commit);
+        console.log(problemService.problem); // <<<<< LEFT OFF HERE
+        alerts.success('Committed beyotch!');
+      }
     }
   }
   

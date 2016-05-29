@@ -45,9 +45,9 @@ body, section {
   margin-bottom: 20px;
 }
 
-textarea.spaced {
+.spaced {
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .username {
@@ -103,9 +103,4 @@ textarea.spaced {
 
 .btn.sharp {
   border-radius: 0;
-}
-
-.btn.spaced {
-  margin-bottom: 20px;
-  width: 100%;
 }

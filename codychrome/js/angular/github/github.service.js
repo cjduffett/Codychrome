@@ -222,7 +222,7 @@
               path: path,
               message: commitMessage,
               content: problemAsBase64,
-              sha: new_sha
+              sha: old_sha  // blob sha of the file being replaced
             };
             
             var config = {

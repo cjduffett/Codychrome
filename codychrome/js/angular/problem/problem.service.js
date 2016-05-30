@@ -82,16 +82,14 @@
         var problem_keys = Object.keys(prob);
         var meta_keys = Object.keys(prob.meta);
         
+        if (prob.type < 0 || prob.type > 1) {
+          return false;
+        }
+        
         // verifies that all problem fields (except meta and visibleTests) are not blank
         for (var i = 0; i < problem_keys.length; i++) {
-          if (problem_keys[i] === 'meta' || problem_keys[i] === 'visibleTests') {
-            continue;
-          }
-          
-          if (problem_keys[i] === 'type') {
-            if (prob.type !== 0 || prob.type !== 1) {
-              return false;
-            }
+          if (inArray(['meta', 'visibleTests', 'type'], problem_keys[i])) {
+            // these fields are already validated or not required
             continue;
           }
           

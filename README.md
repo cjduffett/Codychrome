@@ -49,8 +49,14 @@ Currently Codychrome only supports creating and maintaining your problems on Git
 
 All problems managed by Codychrome are currently stored in public repositories, visible to everyone. I plan to support private repositories (visible to only you) in future versions. It's worth noting that GitHub charges its users for private repositories though.
 
-Acknowlegements
----------------
+License
+-------
+Copyright (C) 2016 Carlton Duffett  
+Licensed under GPL ([https://github.com/cjduffett/Codychrome/blob/master/LICENSE](https://github.com/cjduffett/Codychrome/blob/master/LICENSE))
+
+
+Acknowledgements
+----------------
 
 Created and maintained by **Carlton Duffett**.  
 Contact: <carlton.duffett@gmail.com>

@@ -88,6 +88,13 @@
             continue;
           }
           
+          if (problem_keys[i] === 'type') {
+            if (prob.type !== 0 || prob.type !== 1) {
+              return false;
+            }
+            continue;
+          }
+          
           if (!prob[problem_keys[i]]) {
             return false;
           }

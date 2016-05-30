@@ -176,7 +176,7 @@
       
       return new Promise(function(resolve, reject) {
         
-        // stringify the problem object
+        // stringify the problem object and check character encoding
         var problemAsString = problemToString(problem);
         
         // convert to base64 encoding (GitHub stores all file contents in base64 encoding)
@@ -321,10 +321,44 @@
     }
     
     /*
-     * Converts the problem object to a string and properly escapes special characters
+     * Converts the problem object to a string and properly escapes special characters.
+     * Characters outside the Latin-1 range cannot be base64 encoded, so we exclude them.
      */
-    function problemToString(obj) {
-      return JSON.stringify(obj);
+    function problemToString(prob) {
+      var probAsString = JSON.stringify(prob);
+      if (!isInLatinRange(probAsString)) {
+        return boundToLatinRange(probAsString);
+      }
+      return probAsString;
+    }
+    
+    /*
+     * Tests if a string contains characters exclusively in the Latin-1 Unicode range.
+     * JavaScript btoa() base64 encoding only accepts characters in this range.
+     */
+    function isInLatinRange(str) {
+      for (var i = 0; i < str.length; i++) {
+        if (str[i] < '\u0000' || str[i] > '\u00FF') {
+          return false;
+        }
+      }
+      return true;
+    }
+    
+    /*
+     * Restricts erroneous string elements to characters exclusively in the Latin-1 range.
+     * For now, this just deletes characters that are outside of the range \u0000 to \u00FF.
+     */
+    function boundToLatinRange(str) {
+      
+      var charArray = Array.from(str);  // convert to character array to allow replacement
+      
+      for (var i = 0; i < charArray.length; i++) {
+        if (charArray[i] < '\u0000' || charArray[i] > '\u00FF') {
+          charArray[i] = '';
+        }
+      }
+      return charArray.join('');
     }
     
     /*

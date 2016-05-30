@@ -26,12 +26,12 @@
 
   // attempt to parse problem from page
   try {
-    problem.title         = $(CONFIG.PARSER.TITLE_ID).attr('value');
-    problem.description   = $(CONFIG.PARSER.DESCRIPTION_ID).text();
-    problem.template      = $(CONFIG.PARSER.TEMPLATE_ID).text();
-    problem.solution      = $(CONFIG.PARSER.SOLUTION_ID).text();
-    problem.visibleTests  = $(CONFIG.PARSER.VISIBLE_TESTS_ID).text();
-    problem.hiddenTests   = $(CONFIG.PARSER.HIDDEN_TESTS_ID).text();
+    problem.title         = $(CONFIG.PARSER.TITLE_ID).val();
+    problem.description   = $(CONFIG.PARSER.DESCRIPTION_ID).val();
+    problem.template      = $(CONFIG.PARSER.TEMPLATE_ID).val();
+    problem.solution      = $(CONFIG.PARSER.SOLUTION_ID).val();
+    problem.visibleTests  = $(CONFIG.PARSER.VISIBLE_TESTS_ID).val();
+    problem.hiddenTests   = $(CONFIG.PARSER.HIDDEN_TESTS_ID).val();
 
     var selected_radio = $(CONFIG.PARSER.TYPE_RADIO_CLASS).parent().attr('class');
     problem.type = findProblemType(selected_radio);

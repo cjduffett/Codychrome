@@ -109,7 +109,7 @@ var CONFIG = {
       PARSE_SUCCESS: 'Problem parsed successfully',
       
       /* GitHub Repository */
-      REPO_SAVE_SUCCESS: 'Repository updated',
+      REPO_SAVE_SUCCESS: 'Repository settings updated',
       REPO_SAVE_FAILED: 'Failed to update repository',
       REPO_NAME_INVALID: 'Please enter a valid repository name',
       

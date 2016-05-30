@@ -2,8 +2,8 @@
  * Codychrome Problem Controller
  * Manages the interaction with a Cody Coursework problem.
  *
- * Carlton Duffett
- * 05-17-2016
+ * Copyright (C) 2016 Carlton Duffett
+ * Licensed under GPL (https://github.com/cjduffett/Codychrome/blob/master/LICENSE)
  */
 (function() {
   

@@ -2,8 +2,8 @@
  * Codychrome Alerts Controller
  * Uses the Bootstrap "alert" class to display visual alerts.
  *
- * Carlton Duffett
- * 05-17-2016
+ * Copyright (C) 2016 Carlton Duffett
+ * Licensed under GPL (https://github.com/cjduffett/Codychrome/blob/master/LICENSE)
  */
 (function() {
   

@@ -2,8 +2,8 @@
  * Codychrome GitHub Controller
  * Manages the GitHub form and interaction with GitHub.
  *
- * Carlton Duffett
- * 05-18-2016
+ * Copyright (C) 2016 Carlton Duffett
+ * Licensed under GPL (https://github.com/cjduffett/Codychrome/blob/master/LICENSE)
  */
 (function() {
   

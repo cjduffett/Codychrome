@@ -1,8 +1,7 @@
 /*
  * Codychrome Client Configuration
- *
- * Carlton Duffett
- * 05-19-2016
+ * Copyright (C) 2016 Carlton Duffett
+ * Licensed under GPL (https://github.com/cjduffett/Codychrome/blob/master/LICENSE)
  */
 
 var CONFIG = {

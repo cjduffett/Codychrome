@@ -2,9 +2,9 @@
  * Codychrome GitHub API Service
  * Properly configures all authenticated and unauthenticated requests to the 
  * GitHub API.
- * 
- * Carlton Duffett
- * 05-28-2016
+ *
+ * Copyright (C) 2016 Carlton Duffett
+ * Licensed under GPL (https://github.com/cjduffett/Codychrome/blob/master/LICENSE)
  */
 (function() {
   

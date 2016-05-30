@@ -2,8 +2,8 @@
  * Codychrome OAuth Service
  * Manages OAuth with the GitHub API
  *
- * Carlton Duffett
- * 05-21-2016
+ * Copyright (C) 2016 Carlton Duffett
+ * Licensed under GPL (https://github.com/cjduffett/Codychrome/blob/master/LICENSE)
  */
 (function() {
   

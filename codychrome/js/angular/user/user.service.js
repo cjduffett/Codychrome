@@ -1,9 +1,9 @@
 /*
  * Codychrome User Service
  * Manages the current user's settings and GitHub OAuth
- * 
- * Carlton Duffett
- * 05-20-2016
+ *
+ * Copyright (C) 2016 Carlton Duffett
+ * Licensed under GPL (https://github.com/cjduffett/Codychrome/blob/master/LICENSE)
  */
 (function() {
   

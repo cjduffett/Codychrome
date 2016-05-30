@@ -1,4 +1,8 @@
-/* bootstrap overrides for Chrome extension */
+/*!
+ * Codychrome
+ * Copyright (C) 2016 Carlton Duffett
+ * Licensed under GPL (https://github.com/cjduffett/Codychrome/blob/master/LICENSE)
+ */
 body, section {
   width: 400px;
   height: 600px;

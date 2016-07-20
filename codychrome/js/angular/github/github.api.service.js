@@ -33,8 +33,6 @@
      */
     function sendRequest(config) {
       
-      console.log(config);
-      
       if (!Object.hasOwnProperty(config, 'headers')) {
         config['headers'] = {};
       }

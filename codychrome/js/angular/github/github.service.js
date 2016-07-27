@@ -13,9 +13,9 @@
     .module('github')
     .factory('githubService', githubService);
   
-  githubService.$inject = ['$http', 'apiService', 'userService'];
+  githubService.$inject = ['apiService', 'userService'];
   
-  function githubService($http, apiService, userService) {
+  function githubService(apiService, userService) {
     
     var repo = {};  // see config.js for the default repo model
     var commit = {};

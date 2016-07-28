@@ -17,16 +17,18 @@
   
   function githubService(apiService, userService) {
     
-    var repo = {};  // see config.js for the default repo model
+    var repo = {};  // see config.js for the default repo and commit models
     var commit = {};
     
     var service = {
       repo: repo,
       
-      /* methods */
+      /* local methods */
       initRepo: initRepo,
       loadRepo: loadRepo,
       saveRepo: saveRepo,
+      
+      /* API methods */
       getOrCreateRepo: getOrCreateRepo,
       createOrUpdateProblem: createOrUpdateProblem
     };
@@ -112,8 +114,10 @@
           
           if (response.status === 401) {
             // unauthorized
-            reject({
-              error: CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED
+            userService.resetUserAuth().then(function(){
+              reject({
+                error: CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED
+              });
             });
             return;
           }
@@ -153,8 +157,10 @@
           
           if (response.status === 401) {
             // unauthorized
-            reject({
-              error: CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED
+            userService.resetUserAuth().then(function(){
+              reject({
+                error: CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED
+              });
             });
             return;
           }
@@ -241,8 +247,10 @@
           
           if (response.status === 401) {
             // unauthorized
-            reject({
-              error: CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED
+            userService.resetUserAuth().then(function(){
+              reject({
+                error: CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED
+              });
             });
             return;
           }
@@ -305,8 +313,10 @@
           
           if (response.status === 401) {
             // unauthorized
-            reject({
-              error: CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED
+            userService.resetUserAuth().then(function(){
+              reject({
+                error: CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED
+              });
             });
             return;
           }

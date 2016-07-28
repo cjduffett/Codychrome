@@ -216,7 +216,20 @@
         }
         
         function errorCallback(response) {
-          reject();
+          
+          if (response.status === 401) {
+            // unauthorized
+            userService.resetUserAuth().then(function(){
+              reject({
+                error: CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED
+              });
+            });
+            return;
+          }
+          
+          reject({
+            error: CONFIG.ALERTS.MESSAGES.UNKNOWN_ERROR
+          });
         }
       });
     }

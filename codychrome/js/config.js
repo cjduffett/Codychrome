@@ -87,6 +87,9 @@ var CONFIG = {
     },
     
     MESSAGES: {
+      /* Unkown Error */
+      UNKNOWN_ERROR: 'An unknown error occured',
+      
       /* GitHub OAuth */
       OAUTH_INIT: 'Contacting GitHub...',
       OAUTH_VERIFY: 'Verifying authentication...',

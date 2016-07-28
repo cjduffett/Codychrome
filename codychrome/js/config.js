@@ -6,7 +6,7 @@
 
 var CONFIG = {
   
-  DEBUG: true,
+  DEBUG: false,
   
   /* Codychrome User Template */
   USER: {
@@ -24,13 +24,7 @@ var CONFIG = {
     private: false,
     org_by_assignment: true
   },
-    
-  FILE: {
-    path: '',
-    content: '',  // base64 encoded file contents
-    sha: ''       // sha1 hash of file contents
-  },
-  
+      
   /* GitHub Client */
   GITHUB_CLIENT: {
     ID: '',  // omitted in source control for security reasons
@@ -94,14 +88,13 @@ var CONFIG = {
     
     MESSAGES: {
       /* GitHub OAuth */
-      OAUTH_INIT: 'Authenticating...',
+      OAUTH_INIT: 'Contacting GitHub...',
       OAUTH_VERIFY: 'Verifying authentication...',
-      OAUTH_FAILED: 'Authentication failed',
+      OAUTH_FAILED: 'Authentication failed, please retry',
       OAUTH_SUCCESS: 'Authenticated with GitHub',
       OAUTH_CSRF: 'Unsecure Authentication Detected',
-      OAUTH_ALREADY_AUTHENTICATED: 'Already authenticated',
       OAUTH_NOT_AUTHENTICATED: 'Not authenticated with GitHub',
-      OAUTH_RETRY: 'Please retry authentication',
+      OAUTH_NEEDS_AUTHENTICATION: 'Please authorize GitHub to continue',
 
       /* Problem Parsing */
       PARSE_ERROR: 'Failed to parse problem',

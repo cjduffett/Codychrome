@@ -34,81 +34,59 @@
         .catch(loadErrorCallback);
 
       function loadSuccessCallback() {
-        
+        // user already exists in storage
         $scope.$apply(function() {
           
-          if (!userService.user.isAuthenticated && !userService.user.interactiveAuthLaunched) {
-            alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED);
+          if (userService.user.isAuthenticated) {
+            alerts.success(CONFIG.ALERTS.MESSAGES.OAUTH_SUCCESS);
             return;
           }
           
-          verifyAuthentication();
+          // user is not authenticated yet, so...
+          
+          if (userService.user.interactiveAuthLaunched) {
+            // Interactive auth was launched, so we'll try to verify that the user is now authorized
+            alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_VERIFY);
+            oauthService.verifyAuth()
+              .then(authVerified)
+              .catch(authNotVerified);
+            
+            function authVerified() {
+              $scope.$apply(function() {
+                alerts.success(CONFIG.ALERTS.MESSAGES.OAUTH_SUCCESS);
+              });
+            }
+            
+            function authNotVerified() {
+              $scope.$apply(function() {
+                alerts.error(CONFIG.ALERTS.MESSAGES.OAUTH_FAILED);
+              }); 
+            }
+          }
+          else {
+            // user hasn't taken action to authorize GitHub yet
+            alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_NEEDS_AUTHENTICATION);
+          }
+          
         });
       }
 
       function loadErrorCallback() {
-        // user does not exist yet
+        // user does not exist yet and still needs to be authenticated
         $scope.$apply(function() {
           userService.initUser();
-          alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED);
+          alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_NEEDS_AUTHENTICATION);
         });
       }
     }
     
     /*
-     * Initiates Github OAuth
+     * Launches Github OAuth flow
      */
     function launchAuthentication() {
       
       alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_INIT);
-      authenticate();
-    }
-    
-    /*
-     * Confirms GitHub OAuth
-     */
-    function verifyAuthentication() {
-      
-      alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_VERIFY);
-      authenticate();
-    }
-    
-    /*
-     * Handles interaction with oauthService authentication
-     */
-    
-    function authenticate() {
-      oauthService.authenticate()
-        .then(authVerified)
-        .catch(authFailed); 
-      
-      function authVerified() {
-        
-        oauthService.getUsername()
-          .then(userIdentified)
-          .catch(userNotIdentified);
-        
-        function userIdentified() {
-          $scope.$apply(function() {
-            alerts.success(CONFIG.ALERTS.MESSAGES.OAUTH_SUCCESS);
-          });
-        }
-        
-        function userNotIdentified() {
-          // the only way user identification fails is if the user is not authenticated
-          userService.resetUserAuth();
-          $scope.$apply(function() {
-            alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_FAILED);
-          }); 
-        }
-      }
-
-      function authFailed() {
-        userService.resetUserAuth();
-        $scope.$apply(function() {
-          alerts.warning(CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED);
-        });
-      }
+      oauthService.newAuth();
     }
   }
   

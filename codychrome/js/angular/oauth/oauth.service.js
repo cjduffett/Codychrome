@@ -19,40 +19,13 @@
   
     var service = {
       /* methods */
-      authenticate: authenticate,
+      newAuth: newAuth,
+      verifyAuth: verifyAuth,
       getUsername: getUsername
     };
     
     return service;
     //////////////////////////////
-    
-    /*
-     * Executes GitHub OAuth
-     */
-    function authenticate() {
-      
-      return new Promise(function(resolve, reject) {
-        
-        // STEP 1: Get an access code from GitHub's OAuth API
-        getAccessCode()
-          .then(successCallback)
-          .catch(reject);
-
-        function successCallback(token) {
-
-          if (!token) {
-            reject({
-              error: CONFIG.ALERTS.MESSAGES.OAUTH_FAILED
-            });
-            return;
-          }
-
-          userService.user.isAuthenticated = true;
-          userService.user.authToken = token;
-          userService.saveUser().then(resolve);
-        }
-      });
-    }
     
     /*
      * Generates CSRF token for OAuth request
@@ -70,53 +43,72 @@
     function getRedirectURL() {
       return chrome.identity.getRedirectURL() + CONFIG.GITHUB_API.AUTH_REDIRECT_PATH;
     }
-        
+    
     /*
-     * Makes initial request to GitHub API for an access code.
+     * Sets up and launches an external OAuth request to GitHub
      */
-    function getAccessCode() {
+    function setupWebAuthFlow(interactive, state, callback) {
+
+      var url = CONFIG.GITHUB_API.WEB_ROOT + CONFIG.GITHUB_API.AUTH_URL + '?' +
+          'client_id=' + CONFIG.GITHUB_CLIENT.ID +
+          '&scope=' + CONFIG.GITHUB_CLIENT.SCOPE +
+          '&state=' + state +
+          '&redirect_uri=' + encodeURIComponent(getRedirectURL());         
+
+      var details = {
+        url: url,
+        interactive: interactive  // if true, ensures the OAuth is opened in a new interactive window
+      };
+      
+      chrome.identity.launchWebAuthFlow(details, callback);
+    }
+    
+    /*
+     * Executes new GitHub OAuth flow
+     */
+    function newAuth() {
       
       return new Promise(function(resolve, reject) {
         
-        // used to prevent CSRF in OAuth request
-        var state = getState();
+        // STEP 1: Launch an interactive OAuth window for authorization from GitHub
+        userService.user.interactiveAuthLaunched = true;
+        
+        userService.saveUser().then(function() {
 
-        var url = CONFIG.GITHUB_API.WEB_ROOT + CONFIG.GITHUB_API.AUTH_URL + '?' +
-            'client_id=' + CONFIG.GITHUB_CLIENT.ID +
-            '&scope=' + CONFIG.GITHUB_CLIENT.SCOPE +
-            '&state=' + state //+
-            '&redirect_uri=' + encodeURIComponent(getRedirectURL());         
-
-        var details = {
-          url: url,
-          interactive: true  // opens a new window for GitHub OAuth
-        };
-
-        if (!userService.user.interactiveAuthLaunched) {
-          // the user has not attempted interactive OAuth yet
-          userService.user.interactiveAuthLaunched = true;
-          userService.saveUser().then(function() {
-
-            chrome.identity.launchWebAuthFlow(details, authResponse);
-            /*
-             * NOTE: Since launching the web auth flow takes focus away from the popup, the popup
-             * is destroyed. We therefore don't expect to actually reach the authResponse callback
-             * in this case. Authentication will be verified the next time the extension is launched.
-             */
-          });
-        }
-        else {
-          // interactive auth was previously launched and succeeded, so don't use it
-          details.interactive = false;
-          chrome.identity.launchWebAuthFlow(details, authResponse);
-        }
+          var state = getState(); // used to prevent CSRF
           
+          setupWebAuthFlow(true, state, function(){}); // interactive = true, empty callback 
+          /*
+           * NOTE: Since launching the web auth flow takes focus away from the extension's popup, the
+           * popup is destroyed. We therefore don't expect to actually reach the callback in this case.
+           * Authentication will be verified when the extension is relaunched.
+           */
+          resolve();
+        });
+      });
+    }
+    
+    /*
+     * Verfies authentication with GitHub after initial OAuth flow was launched
+     */
+    function verifyAuth() {
+      
+      return new Promise(function(resolve, reject) {
+        
+        var state = getState(); // used to prevent CSRF
+        
+        setupWebAuthFlow(false, state, authResponse); // interactive = false, authResponse callback
+        /*
+         * NOTE: When not in interactive mode the extension's popup is preserved and program flow
+         * reaches the authResponse callback as expected.
+         */
+        
         function authResponse(responseUrl) {
           
           if (chrome.runtime.lastError) {
             /*
-             * Interactive auth was never completed, we need to reset and prompt the user
-             * to authenticate with GitHub again.
+             * The interactive auth window was closed before the user authorized CodyChrome.
+             * We'll need to reset the OAuth flow and prompt the user to try again.
              */
             userService.resetUserAuth().then(resetCallback);
             
@@ -125,13 +117,6 @@
                 error: CONFIG.ALERTS.MESSAGES.OAUTH_RETRY
               });
             }
-            return;
-          }
-          
-          if (!responseUrl) {
-            reject({
-              error: CONFIG.ALERTS.MESSAGES.OAUTH_FAILED
-            });
             return;
           }
           
@@ -157,8 +142,9 @@
             reject({
               error: CONFIG.ALERTS.MESSAGES.OAUTH_FAILED
             });
-          }
-        }   
+          } 
+        } // authResponse
+        
       });
     }
     
@@ -167,31 +153,44 @@
      */
     function getAccessToken(code, state) {
       
-      var data = {
-        client_id: CONFIG.GITHUB_CLIENT.ID,
-        client_secret: CONFIG.GITHUB_CLIENT.SECRET,
-        code: code,
-        redirect_uri: getRedirectURL(),
-        state: state
-      };
-            
-      var config = {
-        method: 'POST',
-        url: CONFIG.GITHUB_API.TOKEN_URL,
-        data: data
-      };
-      
-      return apiService.sendWebRequest(config)
-        .then(successCallback)
-        .catch(errorCallback);
-      
-      function successCallback(response) {
-        return response.data.access_token;
-      }
-      
-      function errorCallback(response) {
-        return null;
-      }
+      return new Promise(function(resolve, reject) {
+        
+        var data = {
+          client_id: CONFIG.GITHUB_CLIENT.ID,
+          client_secret: CONFIG.GITHUB_CLIENT.SECRET,
+          code: code,
+          redirect_uri: getRedirectURL(),
+          state: state
+        };
+
+        var config = {
+          method: 'POST',
+          url: CONFIG.GITHUB_API.TOKEN_URL,
+          data: data
+        };
+
+        return apiService.sendWebRequest(config)
+          .then(successCallback)
+          .catch(errorCallback);
+
+        function successCallback(response) {
+          userService.user.isAuthenticated = true;
+          userService.user.authToken = response.data.access_token;
+          /*
+           * We're newly authenticated, so let's grab the user's username for use in future
+           * requests and to add a personal touch to our app. getUsername will also save the
+           * user model for us.
+           */
+          getUsername()
+            .then(resolve)
+            .catch(reject);
+        }
+
+        function errorCallback(response) {
+          // Authentication failed :(
+          userService.resetUserAuth().then(reject);
+        }
+      });
     }
     
     /*
@@ -200,14 +199,7 @@
     function getUsername() {
       
       return new Promise(function(resolve, reject) {
-        
-        if (!userService.user.isAuthenticated) {
-          reject({
-            error: CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED
-          });
-          return;
-        }
-        
+                
         var config = {
           method: 'GET',
           url: CONFIG.GITHUB_API.GET_USER_URL
@@ -224,10 +216,7 @@
         }
         
         function errorCallback(response) {
-         
-          reject({
-            error: CONFIG.ALERTS.MESSAGES.OAUTH_NOT_AUTHENTICATED
-          });
+          reject();
         }
       });
     }
